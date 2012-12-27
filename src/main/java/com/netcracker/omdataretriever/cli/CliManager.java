@@ -151,6 +151,11 @@ public class CliManager {
             System.out.println(version());
             System.exit(0);
         }
+        
+        // Version options executes and exits
+        if (cmdLine.hasOption(Args.HELP)) {
+            invalidUsage(options);
+        }
 
         if (!cmdLine.hasOption(Args.ORDERID)) {
             String errorMsg = String.format("Sorry you MUST specify --%s.",
@@ -190,32 +195,36 @@ public class CliManager {
         if (cmdLine.hasOption(Args.DB_URL)) {
             dbUrl = cmdLine.getOptionValue(Args.DB_URL);
         } else {
-            logger.error("Must provide Database URL in form <IP_Address:Port>");
-            return;
+            String errorMsg = "Must provide Database URL in form <IP_Address:Port>";
+            logger.error(errorMsg);
+            invalidUsage(options, errorMsg);
         }
 
         String dbServiceName = "";
         if (cmdLine.hasOption(Args.DB_SERVICE_NAME)) {
             dbServiceName = cmdLine.getOptionValue(Args.DB_SERVICE_NAME);
         } else {
-            logger.error("Must provide Database Service Name");
-            return;
+            String errorMsg = "Must provide Database Service Name";
+            logger.error(errorMsg);
+            invalidUsage(options, errorMsg);
         }
 
         String dbUsername = "";
         if (cmdLine.hasOption(Args.DB_USERNAME)) {
             dbUsername = cmdLine.getOptionValue(Args.DB_USERNAME);
         } else {
-            logger.error("Must provide Database username, e.g. JETSPEED");
-            return;
+            String errorMsg = "Must provide Database username, e.g. ICESST1";
+            logger.error(errorMsg);
+            invalidUsage(options, errorMsg);
         }
 
         String dbPassword = "";
         if (cmdLine.hasOption(Args.DB_PASSWORD)) {
             dbPassword = cmdLine.getOptionValue(Args.DB_PASSWORD);
         } else {
-            logger.error("Must provide Database password");
-            return;
+            String errorMsg = "Must provide Database password";
+            logger.error(errorMsg);
+            invalidUsage(options, errorMsg);
         }
 
         OrderService orderService = new OrderService(new DBClientImpl(dbUrl,
