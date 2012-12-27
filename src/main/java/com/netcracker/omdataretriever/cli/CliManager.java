@@ -151,7 +151,7 @@ public class CliManager {
             System.out.println(version());
             System.exit(0);
         }
-        
+
         // Version options executes and exits
         if (cmdLine.hasOption(Args.HELP)) {
             invalidUsage(options);
@@ -289,6 +289,7 @@ public class CliManager {
      * @return version
      */
     public String version() {
-        return Args.APP_NAME + " " + Args.VERSION_VALUE;
+        return String.format("Application: [%s-%s]", new Object[] {
+                Args.APP_NAME, Args.VERSION_VALUE });
     }
 }
