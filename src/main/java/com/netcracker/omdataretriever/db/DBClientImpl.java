@@ -216,7 +216,8 @@ public class DBClientImpl implements IDBClient {
                 }
             }
         } catch (Exception e) {
-            logger.fatal(e.getLocalizedMessage());
+            logger.fatal(String.format("Exception: [%s]",
+                    new Object[] { e.getMessage() }));
         }
     }
 
@@ -254,6 +255,13 @@ public class DBClientImpl implements IDBClient {
         ArrayList<TaskData> taskData = new ArrayList<TaskData>();
         initConnectionStatement();
         String orderIdSql = queryService.getOrderIdQuery();
+
+        if (connection == null) {
+            logger.fatal(String.format("Could NOT connect to database: [%s]",
+                    new Object[] { url }));
+            return orderData;
+        }
+
         try {
             PreparedStatement orderIdStatement = connection
                     .prepareStatement(orderIdSql);
